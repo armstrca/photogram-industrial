@@ -20,7 +20,7 @@
 #  fk_rails_...  (owner_id => users.id)
 #
 class Photo < ApplicationRecord
-  belongs_to :owner, class_name: "User"
+  belongs_to :owner, class_name: "User", counter_cache: true
 
   validates(:owner, { :presence => true })
 
