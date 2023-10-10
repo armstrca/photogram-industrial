@@ -3,12 +3,28 @@ task({ :sample_data => :environment }) do
   p "Creating sample data"
   starting = Time.now
 
-  FollowRequest.delete_all
-  Comment.delete_all
-  Like.delete_all
-  Photo.delete_all
-  User.delete_all
+  if Rails.env.development?
+    FollowRequest.delete_all
+    Comment.delete_all
+    Like.delete_all
+    Photo.delete_all
+    User.delete_all
+  end
 
+  usernames = Array.new { Faker::Name.first_name }
+
+  usernames << "alice"
+  usernames << "bob"
+
+  usernames.each do |username|
+    User.create(
+      email: "#{username}@example.com",
+      password: "password",
+      username: username.downcase,
+      private: [true, false].sample,
+    )
+  end
+  
   12.times do
     name = Faker::Name.first_name
     User.create(
@@ -26,14 +42,14 @@ task({ :sample_data => :environment }) do
       if rand < 0.75
         first_user.sent_follow_requests.create(
           recipient: second_user,
-          status: FollowRequest.statuses.values.sample
+          status: FollowRequest.statuses.values.sample,
         )
       end
 
       if rand < 0.75
         second_user.sent_follow_requests.create(
           recipient: first_user,
-          status: FollowRequest.statuses.values.sample
+          status: FollowRequest.statuses.values.sample,
         )
       end
     end
@@ -43,20 +59,20 @@ task({ :sample_data => :environment }) do
     rand(15).times do
       photo = user.own_photos.create(
         caption: Faker::Quote.jack_handey,
-        image: "https://robohash.org/#{rand(9999)}"
+        image: "https://robohash.org/#{rand(9999)}",
       )
-  
+
       user.followers.each do |follower|
         if rand < 0.5
           if !photo.fans.exists?(follower.id)
             photo.likes.create(fan: follower)
           end
         end
-  
+
         if rand < 0.25
           photo.comments.create(
             body: Faker::Quote.jack_handey,
-            author: follower
+            author: follower,
           )
         end
       end
