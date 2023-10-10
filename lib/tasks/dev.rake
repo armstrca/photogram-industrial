@@ -31,6 +31,7 @@ task({ :sample_data => :environment }) do
       email: "#{name}@example.com",
       password: "password",
       username: name.downcase,
+      avatar_image: "https://robohash.org/#{rand(9999)}",
       private: [true, false].sample,
     )
   end
