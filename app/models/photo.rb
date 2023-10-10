@@ -26,6 +26,9 @@ class Photo < ApplicationRecord
 
   validates(:owner, { :presence => true })
 
+  scope :past_week, -> { where(created_at: 1.week.ago...) }
+  scope :by_likes, -> { order(likes_count: :desc) }
+
   has_many :comments
 
   has_many :likes
