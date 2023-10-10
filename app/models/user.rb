@@ -8,7 +8,7 @@
 #  encrypted_password     :string           default(""), not null
 #  likes_count            :integer          default(0)
 #  photos_count           :integer
-#  private                :boolean
+#  private                :boolean          default(TRUE)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -28,10 +28,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates(:username, {
-    :presence => true,
-    :uniqueness => { :case_sensitive => false }, true
-  })
+
+  validates :username, presence: true, uniqueness: true
 
   has_many :own_photos, foreign_key: :owner_id, class_name: "Photo"
   
