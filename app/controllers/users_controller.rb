@@ -11,6 +11,10 @@ class UsersController < ApplicationController
     @user = User.find_by!(username: params.fetch(:username))
   end
 
+  def liked
+    @user = User.find_by!(username: params.fetch(:username))
+  end
+
   # GET /users/new
   def new
     @user = User.new
