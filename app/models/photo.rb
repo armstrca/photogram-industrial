@@ -21,14 +21,15 @@
 #
 class Photo < ApplicationRecord
   belongs_to :owner, class_name: "User", counter_cache: true
+  validates :caption, presence: true
+  validates :image, presence: true
 
   validates(:owner, { :presence => true })
 
   has_many :comments
 
   has_many :likes
-
-  has_many(:fans, :through => "likes", :source => "fan")
+  has_many :fans, through: :likes
 
   has_one(:fan_list, :through => "likes", :source => "fan")
 end
