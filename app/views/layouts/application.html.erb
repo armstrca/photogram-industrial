@@ -6,6 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= render partial: "shared/cdn_assets" %>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
@@ -16,12 +18,8 @@
 
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
 
     <link rel="stylesheet" media="all" href="/assets/application-04024382391bb910584145d8113cf35ef376b55d125bb4516cebeb14ce788597.css" data-turbolinks-track="reload" />
     <script src="/packs/js/application-f13490905ae56e85d820.js" data-turbolinks-track="reload"></script>
@@ -29,60 +27,19 @@
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-      <div class="container">
-        <a class="navbar-brand" href="/">Photogram</a>
+    <%= render partial: "shared/navbar" %>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="container">
+      <% if notice.present? %>
+        <%= render partial: "shared/flash", locals: { message: notice, css_class: "success" } %>
+      <% end %>
+      
+      <% if alert.present? %>
+        <%= render partial: "shared/flash", locals: { message: alert, css_class: "danger" } %>
+      <% end %>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/alice/feed">
-                <i class="fas fa-users fa-fw"></i></i>
-
-              Feed
-            </a>          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/alice/discover">
-              <i class="fas fa-compass fa-fw"></i>
-
-              Discover 
-            </a>          </li>
-        </ul>
-
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/photos/new">
-              <i class="fas fa-plus-circle"></i>
-
-              Add post
-            </a>          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/alice">
-              <i class="fas fa-home fa-fw"></i>
-
-              Your profile
-            </a>          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              alice
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/users/edit">Edit profile</a>
-              <a class="dropdown-item" rel="nofollow" data-method="delete" href="/users/sign_out" >Sign out</a>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <%= yield %>
     </div>
-  </nav>
 
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
-  <%= yield %>
-</body>
+  </body>
 </html>
